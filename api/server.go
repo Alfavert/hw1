@@ -23,8 +23,11 @@ func newServer(storage Storage) *Server {
 }
 
 // @Summary      Creating new id for the task
+// @Tags task
 // @Description  Creating new id for the task and returning
-// @Success      200  {data}  string "Value"
+// @Accept json
+// @Produce json
+// @Success      200 {object} map[string]string "Value"
 // @Router       /task [get]
 func (s *Server) newTaskHandler(w http.ResponseWriter, r *http.Request) {
 	//NewTask()
@@ -38,9 +41,9 @@ func (s *Server) newTaskHandler(w http.ResponseWriter, r *http.Request) {
 // @Summary      get status_value
 // @Description  returns value_status by task id
 // @Param        key query string true "Key"
-// @Success      200  {string}  string "Value"
+// @Success      200  {object}  map[string]string "value1"
 // @Failure      400  {string}  string error
-// @Router       /status/{id} [get]
+// @Router       /status/ [get]
 func (s *Server) getHandler_Status(w http.ResponseWriter, r *http.Request) {
 	key := r.URL.Query().Get("key")
 	fmt.Printf("Received key: %s\n", key)
@@ -63,9 +66,9 @@ func (s *Server) getHandler_Status(w http.ResponseWriter, r *http.Request) {
 // @Summary      get result_value
 // @Description  returns result_status by task id
 // @Param        key query string true "Key"
-// @Success      200  {string} string "Value"
+// @Success      200  {object}  map[string]string "value1"
 // @Failure      400  {string} error
-// @Router       /result/{id} [get]
+// @Router       /result/ [get]
 func (s *Server) getHandler_Result(w http.ResponseWriter, r *http.Request) {
 	key := r.URL.Query().Get("key")
 	fmt.Printf("Received key: %s\n", key)
