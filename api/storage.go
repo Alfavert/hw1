@@ -31,5 +31,5 @@ func (t *task) set(Key string, value TaskStatus) error {
 }
 func (t *task) processTask(Key string) {
 	time.Sleep(60 * time.Second)
-	t.data[Key] = TaskStatus{"completed", "hello"}
+	t.data[Key] = TaskStatus{"ready", "hello"}
 }

@@ -1,0 +1,88 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "This is a sample server of testing Swagger.",
+        "title": "My RESTfull api",
+        "contact": {},
+        "version": "1.0"
+    },
+    "host": "localhost:8000",
+    "basePath": "/",
+    "paths": {
+        "/result/": {
+            "get": {
+                "description": "returns result_status by task id",
+                "summary": "get result_value",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Key",
+                        "name": "key",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "value1",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/status/": {
+            "get": {
+                "description": "returns value_status by task id",
+                "summary": "get status_value",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Key",
+                        "name": "key",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "value1",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/task": {
+            "get": {
+                "description": "Creating new id for the task and returning",
+                "tags": [
+                    "task"
+                ],
+                "summary": "Creating new id for the task",
+                "responses": {
+                    "200": {
+                        "description": "Value",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

@@ -25,23 +25,22 @@ func newServer(storage Storage) *Server {
 // @Summary      Creating new id for the task
 // @Tags task
 // @Description  Creating new id for the task and returning
-// @Accept json
-// @Produce json
-// @Success      200 {object} map[string]string "Value"
+// @Success      200 {string} string "Value"
 // @Router       /task [get]
 func (s *Server) newTaskHandler(w http.ResponseWriter, r *http.Request) {
 	//NewTask()
 	a := s.storage.newID()
 	go s.storage.processTask(a)
+	w.WriteHeader(http.StatusOK)
 	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(map[string]string{"task": a})
+	json.NewEncoder(w).Encode(map[string]string{"task_id": a})
 
 }
 
 // @Summary      get status_value
 // @Description  returns value_status by task id
 // @Param        key query string true "Key"
-// @Success      200  {object}  map[string]string "value1"
+// @Success      200  {string}  string "value1"
 // @Failure      400  {string}  string error
 // @Router       /status/ [get]
 func (s *Server) getHandler_Status(w http.ResponseWriter, r *http.Request) {
@@ -49,7 +48,7 @@ func (s *Server) getHandler_Status(w http.ResponseWriter, r *http.Request) {
 	fmt.Printf("Received key: %s\n", key)
 
 	if key == "" {
-		http.Error(w, "Missing key", http.StatusBadRequest)
+		http.Error(w, "Missing key", http.StatusNotFound)
 		return
 	}
 
@@ -60,13 +59,14 @@ func (s *Server) getHandler_Status(w http.ResponseWriter, r *http.Request) {
 	}
 	value1 := value.Status
 	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK) // Перенесем установку статуса перед отправкой JSON
 	json.NewEncoder(w).Encode(map[string]string{"status": value1})
 }
 
 // @Summary      get result_value
 // @Description  returns result_status by task id
 // @Param        key query string true "Key"
-// @Success      200  {object}  map[string]string "value1"
+// @Success      200  {string}  string "value1"
 // @Failure      400  {string} error
 // @Router       /result/ [get]
 func (s *Server) getHandler_Result(w http.ResponseWriter, r *http.Request) {
@@ -74,7 +74,7 @@ func (s *Server) getHandler_Result(w http.ResponseWriter, r *http.Request) {
 	fmt.Printf("Received key: %s\n", key)
 
 	if key == "" {
-		http.Error(w, "Missing key", http.StatusBadRequest)
+		http.Error(w, "Missing key", http.StatusNotFound)
 		return
 	}
 
@@ -86,6 +86,7 @@ func (s *Server) getHandler_Result(w http.ResponseWriter, r *http.Request) {
 	value1 := value.Result
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(map[string]string{"result": value1})
+	w.WriteHeader(http.StatusOK)
 }
 
 func CreateAndRunServer(storage Storage, addr string) error {
